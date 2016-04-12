@@ -186,6 +186,10 @@ $(document).ready(function(){
 		$("#ready").addClass("btn-warning");
 		$("#timer").text("0.00");
 		
+		$("#user-name").val("");
+		$("#trial-number").val("");
+		$("#trial-type").val("");
+		
 		orientationFileData = ["timestamp,w,x,y,z"];
 		gyroscopeFileData = ["timestamp,x,y,z"];
 		accelerometerFileData = ["timestamp,x,y,z"];

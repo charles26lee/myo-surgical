@@ -49,12 +49,21 @@ $(document).ready(function(){
 });
 
 var formatEMGFlotData = function(index, data){
-	return [{
-		label: index.toString(),
-		data: data.map(function(val, t){
-			return [t, val];
-		})
-	}];
+	if (index == 3) {
+		return [{
+			label: "<img src='images/logo.png'>3",
+			data: data.map(function(val, t){
+				return [t, val];
+			})
+		}];
+	} else {
+		return [{
+			label: index.toString(),
+			data: data.map(function(val, t){
+				return [t, val];
+			})
+		}];
+	}
 }
 
 var updateEMGGraph = function(emgData){
