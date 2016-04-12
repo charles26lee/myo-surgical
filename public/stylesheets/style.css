@@ -28,21 +28,15 @@ body{
 }
 
 .orientationGraph, .gyroscopeGraph, .accelerometerGraph {
-	height: 20%;
+	height: 120px;
 	/* min-height: 100px; */
 	width: 100%;
 	
 	margin: auto;
 }
 
-.emgGraphs {
-	width: 100%;
-	
-	margin: auto;
-}
-
 .emgGraph {
-	height: 10%;
+	height: 55px;
 	/* min-height: 100px; */
 	width: 100%;
 }
@@ -54,7 +48,7 @@ body{
 
 .video {
 	background: black;
-	height: 425px;
+	height: 440px;
 	
 	margin: auto;
 	margin-bottom: 10px;
@@ -68,7 +62,7 @@ body{
 	height: 100%;
 }
 
-.graphs, .trainer, .emgGraph {
+.graphs, .trainer {
 	display: inline-block;
 	float: left;
 	

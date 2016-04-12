@@ -29,6 +29,12 @@
 		<div class="panel panel-info">
 		<div class="panel-heading">Myo Lap Trainer</div>
 		<div class="panel-body">
+			<div class="gesture-protocol alert alert-info">
+				<a href="#" id="gesture-protocol-close" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<p>Welcome to the Myo Lap Trainer!</p>
+				<p>To begin a trial, initiate with the start gesture: lift your forearm vertically upwards. The timer will start recording once the start gesture is recognized.</p>
+				<p>To end a trial, do the same gesture.</p>
+			</div>
 			<div class="trainer">
 				<div class="video">
 					<video autoplay id="videoElement"></video>
@@ -49,12 +55,8 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">Accelerometer</div>
 							<div class="panel-body accelerometerGraph"></div>
-						</div>
-						<div class="panel panel-default">
 							<div class="panel-heading">Gyroscope</div>
 							<div class="panel-body gyroscopeGraph"></div>
-						</div>
-						<div class="panel panel-default">
 							<div class="panel-heading">Orientation</div>
 							<div class="panel-body orientationGraph"></div>
 						</div>
@@ -62,16 +64,14 @@
 					<div class="col-sm-6">
 						<div class="panel panel-default">
 							<div class="panel-heading">EMG</div>
-							<div class="panel-body emgGraphs">
-								<div id="pod0" class="emgGraph"></div>
-								<div id="pod1" class="emgGraph"></div>
-								<div id="pod2" class="emgGraph"></div>
-								<div id="pod3" class="emgGraph"></div>
-								<div id="pod4" class="emgGraph"></div>
-								<div id="pod5" class="emgGraph"></div>
-								<div id="pod6" class="emgGraph"></div>
-								<div id="pod7" class="emgGraph"></div>
-							</div>
+							<div id="pod0" class="emgGraph panel-body"></div>
+							<div id="pod1" class="emgGraph panel-body"></div>
+							<div id="pod2" class="emgGraph panel-body"></div>
+							<div id="pod3" class="emgGraph panel-body"></div>
+							<div id="pod4" class="emgGraph panel-body"></div>
+							<div id="pod5" class="emgGraph panel-body"></div>
+							<div id="pod6" class="emgGraph panel-body"></div>
+							<div id="pod7" class="emgGraph panel-body"></div>
 						</div>
 					</div>
 				</div>
@@ -85,7 +85,7 @@
 		</div>
 		<div>
 		<!-- Modal -->
-		<div id="saveModal" class="modal fade" role="dialog">
+		<div id="save-modal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 			<div class="modal-content">
 			<div class="modal-header">

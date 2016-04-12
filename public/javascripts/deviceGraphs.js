@@ -72,12 +72,13 @@ $(document).ready(function(){
 			if (getElapsedTime() > 5 && isRecording) {
 				$("#recording").removeClass("btn-danger");
 				$("#completed").addClass("btn-success");
-				$("#saveModal").modal("show");
+				$("#save-modal").modal("show");
 				isRecording = false;
 				isReady = false;
 			} else if (!isRecording && isReady) {
 				$("#ready").removeClass("btn-warning");
 				$("#recording").addClass("btn-danger");
+				$("#gesture-protocol-close").trigger("click");
 				isRecording = true;
 			}
 		}
