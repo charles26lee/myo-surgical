@@ -3,7 +3,7 @@ Myo.connect("com.myojs.deviceGraphs");
 
 var resolution1 = 100;
 
-var graphColors = ["#ff0000", "#00ff00", "#0000ff", "#000000"]
+var graphColors = ["#0072bd", "#d95319", "#edb120", "#7e2f8e"]
 
 var orientationRange = 1;
 var orientationGraph;
@@ -211,7 +211,8 @@ var updateGraph = function(graph, graphData, newData){
 		graphData[axis] = graphData[axis].slice(1);
 		graphData[axis].push(newData[axis]);
 	});
-
+	
+	console.log(formatFlotData(graphData));
 	graph.setData(formatFlotData(graphData));
 	graph.draw();
 }
