@@ -1,0 +1,128 @@
+<html>
+	<head>
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
+		
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.6.0/jszip.js"></script>
+		
+		<script type="text/javascript" src="https://cdn.rawgit.com/eligrey/FileSaver.js/master/FileSaver.js"></script>
+		<script type="text/javascript" src="https://cdn.rawgit.com/eligrey/Blob.js/master/Blob.js"></script>
+		
+		<script src="javascripts/myo.js"></script>
+		<script src="javascripts/deviceGraphs.js"></script>
+		<script src="javascripts/emgGraphs.js"></script>
+		<script src="javascripts/videoPlayer.js"></script>
+
+		<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+		
+		<!-- Latest compiled and minified CSS -->
+		<!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
+		<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+
+		<!-- Latest compiled JavaScript -->
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+		<title>Laparoscopy Training with Myo © 2016</title>
+	</head>
+	<body>
+		<div class="panel panel-info">
+		<div class="panel-heading"><h1>Myo Lap Trainer</h1></div>
+		<div class="panel-body">
+			<div class="trainer">
+				<div class="video">
+					<video autoplay id="videoElement"></video>
+				</div>
+				<div class="container-fluid">
+					<div class="status row">
+						<div class="col-sm-3 btn btn-warning" id="ready">Ready</div>
+						<div class="col-sm-3 btn" id="recording">Recording</div>
+						<div class="col-sm-3 btn" id="completed">Completed</div>
+						<div class="col-sm-3 btn btn-default btn" id="timer"/>0.00</div>
+						<!--<div class="col-sm-3 btn btn-primary" id="reset">Reset</div>-->
+					</div>
+				</div>
+			</div>
+			<div class="graphs container-fluid">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">Accelerometer</div>
+							<div class="panel-body accelerometerGraph"></div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">Gyroscope</div>
+							<div class="panel-body gyroscopeGraph"></div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">Orientation</div>
+							<div class="panel-body orientationGraph"></div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">EMG</div>
+							<div class="panel-body emgGraphs">
+								<div id="pod0" class="emgGraph"></div>
+								<div id="pod1" class="emgGraph"></div>
+								<div id="pod2" class="emgGraph"></div>
+								<div id="pod3" class="emgGraph"></div>
+								<div id="pod4" class="emgGraph"></div>
+								<div id="pod5" class="emgGraph"></div>
+								<div id="pod6" class="emgGraph"></div>
+								<div id="pod7" class="emgGraph"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="copyright panel-footer">
+			Laparoscopy Training with Myo © 2016
+			by Bolingot, H. J., Javier, A. R., and Lee, C. E.
+			Ateneo Innovation Center and ECCE Department
+			Ateneo de Manila University
+		</div>
+		<div>
+		<!-- Modal -->
+		<div id="saveModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close reset" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Recording Completed</h4>
+			</div>
+			<div class="modal-body container-fluid">
+				<form role="form" class="text-left">
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<label for="user-name">Participant name:</label>
+						<input type="text" class="form-control" id="user-name">
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label for="trial-number">Trial No:</label>
+						<input type="text" class="form-control" id="trial-number"/>
+					</div>
+					<div class="form-group col-sm-6">
+						<label for="trial-type">Type:</label>
+						<select class="form-control" id="trial-type">
+							<option selected disabled></option>
+							<option value="0bt">Bolt Tightening</option>
+							<option value="1pt">Peg Transfer</option>
+							<option value="2pc">Pipe Cleaning</option>
+						</select>
+					</div>
+				</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input type="button" value="Skip" data-dismiss="modal" class="reset btn btn-link"/>
+				<input type="button" value="Save" data-dismiss="modal" class="btn btn-primary" id="save"/>
+			</div>
+			</div>
+			</div>
+		</div>
+	</body>
+</html>
