@@ -71,7 +71,6 @@ var updateEMGGraph = function(emgData){
 		emgGraphData[index] = emgGraphData[index].slice(1);
 		emgGraphData[index].push(emgData[index]);
 
-		console.log(formatEMGFlotData(index, emgGraphData[index]));
 		emgGraphs[index].setData(formatEMGFlotData(index, emgGraphData[index]));
 		emgGraphs[index].draw();
 	})

@@ -65,6 +65,7 @@ $(document).ready(function(){
 			startTime = timestamp;
 		} else if (isRecording) {
 			$("#timer").text(getElapsedTime().toFixed(2));
+			recordVideo();
 			recordData(orientationFileData, newData);
 		}
 		
@@ -178,8 +179,14 @@ $(document).ready(function(){
 		var content = zip.generate({type: "blob"});
 		
 		saveAs(content, ($("#user-name").val() || "we just want to graduate") + ".zip");
+	});
+	
+	$("#save-video").on("click", function() {
+		var date = new Date();
+		var dateParts = date.toLocaleDateString().split("/");
+		var dateStamp = dateParts[2] + dateParts[1] + dateParts[0];
 		
-		$(".reset").trigger("click");
+		saveAs(Whammy.fromImageArray(frames, 1000/60), dateStamp + "-video.webm");
 	});
 
 	$(".reset").on("click", function() {
@@ -195,6 +202,7 @@ $(document).ready(function(){
 		gyroscopeFileData = ["timestamp,x,y,z"];
 		accelerometerFileData = ["timestamp,x,y,z"];
 		emgFileData = ["timestamp,emg1,emg2,emg3,emg4,emg5,emg6,emg7,emg8"];
+		frames = new Array();
 		
 		isReady = true;
 	});
@@ -217,7 +225,6 @@ var updateGraph = function(graph, graphData, newData){
 		graphData[axis].push(newData[axis]);
 	});
 	
-	console.log(formatFlotData(graphData));
 	graph.setData(formatFlotData(graphData));
 	graph.draw();
 }
