@@ -1,4 +1,4 @@
-/* window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame;
+window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame;
 window.cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame || window.oCancelAnimationFrame;
 
 var rafId = null;
@@ -17,7 +17,7 @@ var drawVideoFrame = function(time) {
 	
 	var url = canvas.toDataURL("image/webp", 1);
 	frames.push(url);
-} */
+}
 
 $(document).ready(function() {
 	var video = document.querySelector("#videoElement");
