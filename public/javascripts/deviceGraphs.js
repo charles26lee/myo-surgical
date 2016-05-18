@@ -65,7 +65,7 @@ $(document).ready(function(){
 			startTime = timestamp;
 		} else if (isRecording) {
 			$("#timer").text(getElapsedTime().toFixed(2));
-			// recordVideo();
+			recordVideo();
 			recordData(orientationFileData, newData);
 		}
 		
@@ -182,13 +182,13 @@ $(document).ready(function(){
 		saveAs(content, ($("#user-name").val() || "we just want to graduate") + ".zip");
 	});
 	
-	/* $("#save-video").on("click", function() {
+	$("#save-video").on("click", function() {
 		var date = new Date();
 		var dateParts = date.toLocaleDateString().split("/");
 		var dateStamp = dateParts[2] + dateParts[1] + dateParts[0];
 		
 		saveAs(Whammy.fromImageArray(frames, 1000/60), dateStamp + "-video.webm");
-	}); */
+	});
 
 	$(".reset").on("click", function() {
 		$("#completed").removeClass("btn-success");
