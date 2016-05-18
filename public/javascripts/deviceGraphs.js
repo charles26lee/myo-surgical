@@ -65,7 +65,7 @@ $(document).ready(function(){
 			startTime = timestamp;
 		} else if (isRecording) {
 			$("#timer").text(getElapsedTime().toFixed(2));
-			recordVideo();
+			// recordVideo();
 			recordData(orientationFileData, newData);
 		}
 		
