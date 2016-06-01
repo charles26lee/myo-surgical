@@ -33,6 +33,10 @@ var accelerometerGraphData = {
 	z: arrayOfZeros.slice(0)
 }
 
+var orientationGraphComplete;
+var gyroscopeGraphComplete;
+var accelerometerGraphComplete;
+
 var orientationFileData = ["timestamp,w,x,y,z"];
 var gyroscopeFileData = ["timestamp,x,y,z"];
 var accelerometerFileData = ["timestamp,x,y,z"];
@@ -74,7 +78,7 @@ $(document).ready(function(){
 				$("#recording").removeClass("btn-danger");
 				$("#completed").addClass("btn-success");
 				$("#save-modal").modal("show");
-				// cancelAnimationFrame(rafId);
+				cancelAnimationFrame(rafId);
 				isRecording = false;
 				isReady = false;
 			} else if (!isRecording && isReady) {
@@ -86,7 +90,7 @@ $(document).ready(function(){
 		}
 		
 		currentTime = timestamp;
-		updateGraph(orientationGraph, orientationGraphData, newData);
+		updateGraph(orientationGraph, newData);
 	});
 
 	Myo.on("gyroscope", function(newData) {

@@ -26,6 +26,8 @@ var emgGraphData = [
 	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0)
 ]
 
+var emgGraphDataComplete;
+
 $(document).ready(function(){
 	emgGraphs = emgGraphData.map(function(podData, podIndex){
 		return $('#pod' + podIndex).plot(formatEMGFlotData(podIndex, podData), {
