@@ -35,6 +35,14 @@ body{
 	margin: auto;
 }
 
+.finalOrientationGraph, .finalGyroscopeGraph, .finalAccelerometerGraph {
+	height: 120px;
+	/* min-height: 100px; */
+	width: 500px;
+	
+	margin: auto;
+}
+
 .emgGraph {
 	height: 55px;
 	/* min-height: 100px; */

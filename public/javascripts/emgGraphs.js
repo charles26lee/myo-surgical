@@ -29,7 +29,7 @@ var emgGraphData = [
 var emgGraphDataComplete;
 
 $(document).ready(function(){
-	emgGraphs = emgGraphData.map(function(podData, podIndex){
+	emgGraphs = emgGraphData.map(function(podData, podIndex) {
 		return $('#pod' + podIndex).plot(formatEMGFlotData(podIndex, podData), {
 			colors: ['#60907e'],
 			xaxis: {
@@ -50,32 +50,36 @@ $(document).ready(function(){
 	});
 });
 
-var formatEMGFlotData = function(index, data){
+var formatEMGFlotData = function(index, data) {
 	if (index == 3) {
 		return [{
 			label: "<img src='images/logo.png'>3",
-			data: data.map(function(val, t){
+			data: data.map(function(val, t) {
 				return [t, val];
 			})
 		}];
 	} else {
 		return [{
 			label: index.toString(),
-			data: data.map(function(val, t){
+			data: data.map(function(val, t) {
 				return [t, val];
 			})
 		}];
 	}
 }
 
-var updateEMGGraph = function(emgData){
-	emgGraphData.map(function(data, index){
+var updateEMGGraph = function(emgData) {
+	emgGraphData.map(function(data, index) {
 		emgGraphData[index] = emgGraphData[index].slice(1);
 		emgGraphData[index].push(emgData[index]);
 
 		emgGraphs[index].setData(formatEMGFlotData(index, emgGraphData[index]));
 		emgGraphs[index].draw();
 	})
+}
+
+var formatFinalEMGFlotData = function() {
+	
 }
 
 /*

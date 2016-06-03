@@ -94,22 +94,6 @@
 				<h4 class="modal-title">Recording Completed</h4>
 			</div>
 			<div class="modal-body container-fluid">
-				<div class="row">
-					<div class="col-sm-12">
-						<ul class="nav nav-tabs">
-							<li role="presentation" class="active"><a href="#accelerometer" data-toggle="tab">Accelerometer</a></li>
-							<li role="presentation"><a href="#gyroscope" data-toggle="tab">Gyroscope</a></li>
-							<li role="presentation"><a href="#orientation" data-toggle="tab">Orientation</a></li>
-							<li role="presentation"><a href="#emg" data-toggle="tab">EMG</a></li>
-						</ul>
-						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane active" id="accelerometer">Insert Accelerometer Graph Here</div>
-							<div role="tabpanel" class="tab-pane" id="gyroscope">Insert Gyrsocope Graph Here</div>
-							<div role="tabpanel" class="tab-pane" id="orientation">Insert Orientation Graph Here</div>
-							<div role="tabpanel" class="tab-pane" id="emg">Insert EMG Graph Here</div>
-						</div>
-					</div>
-				</div>
 				<form role="form" class="text-left">
 				<div class="row">
 					<div class="form-group col-sm-12">
@@ -130,6 +114,30 @@
 							<option value="1pt">Peg Transfer</option>
 							<option value="2pc">Pipe Cleaning</option>
 						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<ul class="nav nav-tabs">
+							<li role="presentation" class="active"><a href="#accelerometer" data-toggle="tab">Accelerometer</a></li>
+							<li role="presentation"><a href="#gyroscope" data-toggle="tab">Gyroscope</a></li>
+							<li role="presentation"><a href="#orientation" data-toggle="tab">Orientation</a></li>
+							<li role="presentation"><a href="#emg" data-toggle="tab">EMG</a></li>
+						</ul>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="accelerometer">
+							<div class="finalAccelerometerGraph"></div>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="gyroscope">
+							<div class="finalGyroscopeGraph"></div>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="orientation">
+							<div class="finalOrientationGraph"></div>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="emg">
+							<div class="finalEmgGraph"></div>
+							</div>
+						</div>
 					</div>
 				</div>
 				</form>
