@@ -63,7 +63,7 @@ var plotFinalGraphs = function() {
 		colors: graphColors,
 		xaxis: {
 			min: 0,
-			max: orientationFileData[orientationFileData.length - 1][0]
+			max: parseFloat(orientationFileData[orientationFileData.length - 1])
 		},
 		yaxis: {
 			min: -orientationRange,
@@ -80,7 +80,7 @@ var plotFinalGraphs = function() {
 		colors: graphColors,
 		xaxis: {
 			min: 0,
-			max: gyroscopeFileData[gyroscopeFileData.length - 1][0]
+			max: parseFloat(gyroscopeFileData[gyroscopeFileData.length - 1])
 		},
 		yaxis: {
 			min: -gyroscopeRange,
@@ -97,7 +97,7 @@ var plotFinalGraphs = function() {
 		colors: graphColors,
 		xaxis: {
 			min: 0,
-			max: accelerometerFileData[accelerometerFileData.length - 1][0]
+			max: parseFloat(accelerometerFileData[accelerometerFileData.length - 1])
 		},
 		yaxis: {
 			min: -accelerometerRange,
@@ -109,6 +109,25 @@ var plotFinalGraphs = function() {
 			borderWidth: 1
 		}
 	}).data("plot");
+	
+	finalEmgGraphs = emgGraphData.map(function(val, index) {
+		return $("#finalPod" + index).plot(formatFinalEMGFlotData(emgFileData, index), {
+			colors: ['#60907e'],
+			xaxis: {
+				min: 0,
+				max: parseFloat(emgFileData[emgFileData.length - 1])
+			},
+			yaxis: {
+				min: -range,
+				max: range,
+			},
+			shadowSize: 0,
+			grid: {
+				borderColor: "#427f78",
+				borderWidth: 1
+			}
+		}).data("plot");
+	});
 }
 
 Myo.on("connected", function() {
@@ -292,7 +311,6 @@ var formatFinalFlotData = function(fileData) {
 	var axis = fileData[0].split(",");
 	axis = axis.slice(1);
 	fileData = fileData.slice(1);
-	console.log(axis);
 	return axis.map(function(val, pos) {
 		return {
 			label: val + " axis",

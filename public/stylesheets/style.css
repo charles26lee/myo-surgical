@@ -49,6 +49,16 @@ body{
 	width: 100%;
 }
 
+.finalEmgGraph {
+	margin-top: 10px;
+}
+
+.finalEmgGraph {
+	height: 55px;
+	/* min-height: 100px; */
+	width: 250px;
+}
+
 .trainer {
 	width: 50%;
 	padding-right: 15px;

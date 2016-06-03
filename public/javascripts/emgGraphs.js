@@ -14,6 +14,7 @@ var rawData = [0,0,0,0,0,0,0,0];
 var range = 150;
 var resolution = 50;
 var emgGraphs;
+var finalEmgGraphs;
 
 var emgGraphData = [
 	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0),
@@ -34,17 +35,17 @@ $(document).ready(function(){
 			colors: ['#60907e'],
 			xaxis: {
 				show: false,
-				min : 0,
-				max : resolution
+				min: 0,
+				max: resolution
 			},
-			yaxis : {
-				min : -range,
-				max : range,
+			yaxis: {
+				min: -range,
+				max: range,
 			},
 			shadowSize: 0,
-			grid : {
-				borderColor : "#427f78",
-				borderWidth : 1
+			grid: {
+				borderColor: "#427f78",
+				borderWidth: 1
 			}
 		}).data("plot");
 	});
@@ -78,8 +79,17 @@ var updateEMGGraph = function(emgData) {
 	})
 }
 
-var formatFinalEMGFlotData = function() {
-	
+var formatFinalEMGFlotData = function(emgFileData, pod) {
+	var axis = emgFileData[0].split(",");
+	axis = axis.slice(1);
+	emgFileData = emgFileData.slice(1);
+	return [{
+		label: pod.toString(),
+		data: emgFileData.map(function(data) {
+			data = data.split(",");
+			return [data[0], data[pod + 1]]
+		})
+	}];
 }
 
 /*
