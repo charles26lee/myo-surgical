@@ -36,53 +36,71 @@
 				<p>To begin a trial, initiate with the start gesture: lift your forearm vertically upwards. The timer will start recording once the start gesture is recognized.</p>
 				<p>To end a trial, do the same gesture.</p>
 			</div>
-			<div class="trainer">
-				<div class="video">
-					<video autoplay id="videoElement"></video>
-				</div>
-				<div class="container-fluid">
-					<div class="status row">
-						<div class="col-sm-3 btn btn-warning" id="ready">Ready</div>
-						<div class="col-sm-3 btn" id="recording">Recording</div>
-						<div class="col-sm-3 btn" id="completed">Completed</div>
-						<div class="col-sm-3 btn btn-default btn" id="timer"/>0.00</div>
-						<!--<div class="col-sm-3 btn btn-primary" id="reset">Reset</div>-->
-					</div>
-				</div>
-			</div>
-			<div class="graphs container-fluid">
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="panel panel-default">
-							<div class="panel-heading">Accelerometer</div>
-							<div class="panel-body accelerometerGraph"></div>
-							<div class="panel-heading">Gyroscope</div>
-							<div class="panel-body gyroscopeGraph"></div>
-							<div class="panel-heading">Orientation</div>
-							<div class="panel-body orientationGraph"></div>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="panel panel-default">
-							<div class="panel-heading">EMG</div>
-							<div id="pod0" class="emgGraph panel-body"></div>
-							<div id="pod1" class="emgGraph panel-body"></div>
-							<div id="pod2" class="emgGraph panel-body"></div>
-							<div id="pod3" class="emgGraph panel-body"></div>
-							<div id="pod4" class="emgGraph panel-body"></div>
-							<div id="pod5" class="emgGraph panel-body"></div>
-							<div id="pod6" class="emgGraph panel-body"></div>
-							<div id="pod7" class="emgGraph panel-body"></div>
-						</div>
-					</div>
-				</div>
+            <div class="container-fluid">
+                <div class="trainer row">
+                    <div class="video col-sm-10"><video autoplay id="videoElement"></video></div>
+                    <div class="signal col-sm-2 panel panel-default">
+                        <div class="row panel-body"><div class="col-sm-12 btn btn-warning" id="ready">Ready</div></div>
+                        <div class="row panel-body"><div class="col-sm-12 btn" id="recording">Recording</div></div>
+                        <div class="row panel-body"><div class="col-sm-12 btn" id="completed">Completed</div></div>
+                        <div class="row panel-body"><div class="col-sm-12 btn btn-default btn" id="timer">0.00</div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Accelerometer</div>
+                        <div class="accelerometerGraph left panel-body"></div>
+                        <div class="panel-heading">Gyroscope</div>
+                        <div class="gyroscopeGraph left panel-body"></div>
+                        <div class="panel-heading">Orientation</div>
+                        <div class="orientationGraph left panel-body"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">EMG</div>
+                        <div id="pod0-left" class="emgGraph left panel-body"></div>
+                        <div id="pod1-left" class="emgGraph left panel-body"></div>
+                        <div id="pod2-left" class="emgGraph left panel-body"></div>
+                        <div id="pod3-left" class="emgGraph left panel-body"></div>
+                        <div id="pod4-left" class="emgGraph left panel-body"></div>
+                        <div id="pod5-left" class="emgGraph left panel-body"></div>
+                        <div id="pod6-left" class="emgGraph left panel-body"></div>
+                        <div id="pod7-left" class="emgGraph left panel-body"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Accelerometer</div>
+                        <div class="accelerometerGraph right panel-body"></div>
+                        <div class="panel-heading">Gyroscope</div>
+                        <div class="gyroscopeGraph right panel-body"></div>
+                        <div class="panel-heading">Orientation</div>
+                        <div class="orientationGraph right panel-body"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">EMG</div>
+                        <div id="pod0-right" class="emgGraph right panel-body"></div>
+                        <div id="pod1-right" class="emgGraph right panel-body"></div>
+                        <div id="pod2-right" class="emgGraph right panel-body"></div>
+                        <div id="pod3-right" class="emgGraph right panel-body"></div>
+                        <div id="pod4-right" class="emgGraph right panel-body"></div>
+                        <div id="pod5-right" class="emgGraph right panel-body"></div>
+                        <div id="pod6-right" class="emgGraph right panel-body"></div>
+                        <div id="pod7-right" class="emgGraph right panel-body"></div>
+                    </div>
+                </div>
 			</div>
 		</div>
 		<div class="copyright panel-footer">
-			Laparoscopy Training with Myo © 2016
-			by Bolingot, H. J., Javier, A. R., and Lee, C. E.
-			Ateneo Innovation Center and ECCE Department
-			Ateneo de Manila University
+            <p>Laparoscopy Training with Myo © 2016</p>
+            <p>by Bolingot, H. J., Javier, A. R., and Lee, C. E.</p>
+            <p>Ateneo Innovation Center and ECCE Department</p>
+            <p>Ateneo de Manila University</p>
 		</div>
 		<div>
 		<!-- Modal -->

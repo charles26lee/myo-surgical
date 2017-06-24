@@ -1,4 +1,4 @@
-//This tells Myo.js to create the web sockets needed to communnicate with Myo Connect
+//This tells Myo.js to create the web sockets needed to communicate with Myo Connect
 Myo.connect("com.myojs.deviceGraphs");
 
 var resolution1 = 100;
@@ -14,24 +14,24 @@ var gyroscopeGraph;
 var accelerometerRange = 5;
 var accelerometerGraph;
 
-var arrayOfZeros = Array.apply(null, Array(resolution1)).map(Number.prototype.valueOf,0);
+var arrayOfZeros = Array.apply(null, new Array(resolution1)).map(Number.prototype.valueOf, 0);
 
 var orientationGraphData = {
-	x: arrayOfZeros.slice(0),
-	y: arrayOfZeros.slice(0),
-	z: arrayOfZeros.slice(0),
-	w: arrayOfZeros.slice(0)
-}
+    x: arrayOfZeros.slice(0),
+    y: arrayOfZeros.slice(0),
+    z: arrayOfZeros.slice(0),
+    w: arrayOfZeros.slice(0)
+};
 var gyroscopeGraphData = {
-	x: arrayOfZeros.slice(0),
-	y: arrayOfZeros.slice(0),
-	z: arrayOfZeros.slice(0)
-}
+    x: arrayOfZeros.slice(0),
+    y: arrayOfZeros.slice(0),
+    z: arrayOfZeros.slice(0)
+};
 var accelerometerGraphData = {
-	x: arrayOfZeros.slice(0),
-	y: arrayOfZeros.slice(0),
-	z: arrayOfZeros.slice(0)
-}
+    x: arrayOfZeros.slice(0),
+    y: arrayOfZeros.slice(0),
+    z: arrayOfZeros.slice(0)
+};
 
 var finalOrientationGraph;
 var finalGyroscopeGraph;
@@ -47,284 +47,280 @@ var currentTime = 0;
 var isReady = true;
 var isRecording = false;
 
-var getElapsedTime = function() {
-	return (currentTime - startTime)/1000000;
-}
+var getElapsedTime = function () {
+    return (currentTime - startTime) / 1000000;
+};
 
-var recordData = function(fileData, newData) {
-	var formattedData = getElapsedTime() + "," + Object.keys(newData).map(function(axis) {
-		return newData[axis];
-	}).join();
-	fileData.push(formattedData);
-}
+var recordData = function (fileData, newData) {
+    var formattedData = getElapsedTime() + "," + Object.keys(newData).map(function (axis) {
+            return newData[axis];
+        }).join();
+    fileData.push(formattedData);
+};
 
-var plotFinalGraphs = function() {
-	finalOrientationGraph = $(".finalOrientationGraph").plot(formatFinalFlotData(orientationFileData), {
-		colors: graphColors,
-		xaxis: {
-			min: 0,
-			max: parseFloat(orientationFileData[orientationFileData.length - 1])
-		},
-		yaxis: {
-			min: -orientationRange,
-			max: orientationRange,
-		},
-		shadowSize: 0,
-		grid: {
-			borderColor: "#427F78",
-			borderWidth: 1
-		}
-	}).data("plot");
-	
-	finalGyroscopeGraph = $(".finalGyroscopeGraph").plot(formatFinalFlotData(gyroscopeFileData), {
-		colors: graphColors,
-		xaxis: {
-			min: 0,
-			max: parseFloat(gyroscopeFileData[gyroscopeFileData.length - 1])
-		},
-		yaxis: {
-			min: -gyroscopeRange,
-			max: gyroscopeRange,
-		},
-		shadowSize: 0,
-		grid: {
-			borderColor: "#427F78",
-			borderWidth: 1
-		}
-	}).data("plot");
-	
-	finalAccelerometerGraph = $(".finalAccelerometerGraph").plot(formatFinalFlotData(accelerometerFileData), {
-		colors: graphColors,
-		xaxis: {
-			min: 0,
-			max: parseFloat(accelerometerFileData[accelerometerFileData.length - 1])
-		},
-		yaxis: {
-			min: -accelerometerRange,
-			max: accelerometerRange,
-		},
-		shadowSize: 0,
-		grid: {
-			borderColor: "#427F78",
-			borderWidth: 1
-		}
-	}).data("plot");
-	
-	finalEmgGraphs = emgGraphData.map(function(val, index) {
-		return $("#finalPod" + index).plot(formatFinalEMGFlotData(emgFileData, index), {
-			colors: ['#60907e'],
-			xaxis: {
-				min: 0,
-				max: parseFloat(emgFileData[emgFileData.length - 1])
-			},
-			yaxis: {
-				min: -range,
-				max: range,
-			},
-			shadowSize: 0,
-			grid: {
-				borderColor: "#427f78",
-				borderWidth: 1
-			}
-		}).data("plot");
-	});
-}
+var plotFinalGraphs = function () {
+    finalOrientationGraph = $(".finalOrientationGraph").plot(formatFinalFlotData(orientationFileData), {
+        colors: graphColors,
+        xaxis: {
+            min: 0,
+            max: parseFloat(orientationFileData[orientationFileData.length - 1])
+        },
+        yaxis: {
+            min: -orientationRange,
+            max: orientationRange
+        },
+        shadowSize: 0,
+        grid: {
+            borderColor: "#427F78",
+            borderWidth: 1
+        }
+    }).data("plot");
 
-Myo.on("connected", function() {
-	console.log("connected");
-	this.streamEMG(true);
+    finalGyroscopeGraph = $(".finalGyroscopeGraph").plot(formatFinalFlotData(gyroscopeFileData), {
+        colors: graphColors,
+        xaxis: {
+            min: 0,
+            max: parseFloat(gyroscopeFileData[gyroscopeFileData.length - 1])
+        },
+        yaxis: {
+            min: -gyroscopeRange,
+            max: gyroscopeRange
+        },
+        shadowSize: 0,
+        grid: {
+            borderColor: "#427F78",
+            borderWidth: 1
+        }
+    }).data("plot");
+
+    finalAccelerometerGraph = $(".finalAccelerometerGraph").plot(formatFinalFlotData(accelerometerFileData), {
+        colors: graphColors,
+        xaxis: {
+            min: 0,
+            max: parseFloat(accelerometerFileData[accelerometerFileData.length - 1])
+        },
+        yaxis: {
+            min: -accelerometerRange,
+            max: accelerometerRange
+        },
+        shadowSize: 0,
+        grid: {
+            borderColor: "#427F78",
+            borderWidth: 1
+        }
+    }).data("plot");
+
+    finalEmgGraphs = emgGraphData.map(function (val, index) {
+        return $("#finalPod" + index).plot(formatFinalEMGFlotData(emgFileData, index), {
+            colors: ['#60907e'],
+            xaxis: {
+                min: 0,
+                max: parseFloat(emgFileData[emgFileData.length - 1])
+            },
+            yaxis: {
+                min: -range,
+                max: range
+            },
+            shadowSize: 0,
+            grid: {
+                borderColor: "#427f78",
+                borderWidth: 1
+            }
+        }).data("plot");
+    });
+};
+
+Myo.on("connected", function () {
+    console.log("connected");
+    this.streamEMG(true);
+    addEvents(this);
 });
 
-$(document).ready(function(){
-	Myo.on("orientation", function(newData, timestamp) {
-		if (isReady && !isRecording) {
-			startTime = timestamp;
-		} else if (isRecording) {
-			$("#timer").text(getElapsedTime().toFixed(2));
-			recordVideo();
-			recordData(orientationFileData, newData);
-		}
-		
-		if ((Math.asin(Math.max(-1, Math.min(1, 2*(newData.y*newData.w - newData.x*newData.z)))) + Math.PI/2)*18/Math.PI > 15) {
-			if (getElapsedTime() > 5 && isRecording) {
-				$("#recording").removeClass("btn-danger");
-				$("#completed").addClass("btn-success");
-				$("#save-modal").modal("show");
-				cancelAnimationFrame(rafId);
-				plotFinalGraphs();
-				isRecording = false;
-				isReady = false;
-			} else if (!isRecording && isReady) {
-				$("#ready").removeClass("btn-warning");
-				$("#recording").addClass("btn-danger");
-				$("#gesture-protocol-close").trigger("click");
-				isRecording = true;
-			}
-		}
-		
-		currentTime = timestamp;
-		updateGraph(orientationGraph, orientationGraphData, newData);
-	});
+var addEvents = function (myo) {
+    myo.on("orientation", function (newData, timestamp) {
+        if (isReady && !isRecording) {
+            startTime = timestamp;
+        } else if (isRecording) {
+            $("#timer").text(getElapsedTime().toFixed(2));
+            recordVideo();
+            recordData(orientationFileData, newData);
+        }
 
-	Myo.on("gyroscope", function(newData) {
-		if (isRecording) {
-			recordData(gyroscopeFileData, newData);
-		}
-		updateGraph(gyroscopeGraph, gyroscopeGraphData, newData);
-	});
+        if ((Math.asin(Math.max(-1, Math.min(1, 2 * (newData.y * newData.w - newData.x * newData.z)))) + Math.PI / 2) * 18 / Math.PI > 15) {
+            if (getElapsedTime() > 5 && isRecording) {
+                $("#recording").removeClass("btn-danger");
+                $("#completed").addClass("btn-success");
+                $("#save-modal").modal("show");
+                cancelAnimationFrame(rafId);
+                plotFinalGraphs();
+                isRecording = false;
+                isReady = false;
+            } else if (!isRecording && isReady) {
+                $("#ready").removeClass("btn-warning");
+                $("#recording").addClass("btn-danger");
+                $("#gesture-protocol-close").trigger("click");
+                isRecording = true;
+            }
+        }
 
-	Myo.on("accelerometer", function(newData) {
-		if (isRecording) {
-			recordData(accelerometerFileData, newData);
-		}
-		updateGraph(accelerometerGraph, accelerometerGraphData, newData);
-	});
+        currentTime = timestamp;
+        updateGraph(orientationGraph, orientationGraphData, newData);
+    });
 
-	Myo.on('emg', function(data){
-		rawData = data;
-		if (isRecording) {
-			recordData(emgFileData, data);
-		}
-	})
+    myo.on("gyroscope", function (newData) {
+        if (isRecording) {
+            recordData(gyroscopeFileData, newData);
+        }
+        updateGraph(gyroscopeGraph, gyroscopeGraphData, newData);
+    });
 
-	orientationGraph = $(".orientationGraph").plot(formatFlotData(orientationGraphData), {
-		colors: graphColors,
-		xaxis: {
-			show: false,
-			min: 0,
-			max: resolution1
-		},
-		yaxis: {
-			min: -orientationRange,
-			max: orientationRange,
-		},
-		shadowSize: 0,
-		grid: {
-			borderColor: "#427F78",
-			borderWidth: 1
-		}
-	}).data("plot");
-	
-	gyroscopeGraph = $(".gyroscopeGraph").plot(formatFlotData(gyroscopeGraphData), {
-		colors: graphColors,
-		xaxis: {
-			show: false,
-			min: 0,
-			max: resolution1
-		},
-		yaxis: {
-			min: -gyroscopeRange,
-			max: gyroscopeRange,
-		},
-		shadowSize: 0,
-		grid: {
-			borderColor: "#427F78",
-			borderWidth: 1
-		}
-	}).data("plot");
-	
-	accelerometerGraph = $(".accelerometerGraph").plot(formatFlotData(accelerometerGraphData), {
-		colors: graphColors,
-		xaxis: {
-			show: false,
-			min: 0,
-			max: resolution1
-		},
-		yaxis: {
-			min: -accelerometerRange,
-			max: accelerometerRange,
-		},
-		shadowSize: 0,
-		grid: {
-			borderColor: "#427F78",
-			borderWidth: 1
-		}
-	}).data("plot");
-	
-	$("#save").on("click", function() {
-		var zip = new JSZip();
-		
-		var date = new Date();
-		var dateParts = date.toLocaleDateString().split("/");
-		var dateStamp = dateParts[2] + dateParts[1] + dateParts[0];
-		
-		var trial = zip.folder(($("#trial-number").val() || "test") + "_" + ($("#trial-type").val() || "test"));
-		trial.file(dateStamp + "-orientation.csv", orientationFileData.join("\n"));
-		trial.file(dateStamp + "-gyroscope.csv", gyroscopeFileData.join("\n"));
-		trial.file(dateStamp + "-accelerometer.csv", accelerometerFileData.join("\n"));
-		trial.file(dateStamp + "-emg.csv", emgFileData.join("\n"));
-		
-		var content = zip.generate({type: "blob"});
-		
-		saveAs(content, ($("#user-name").val() || "we just want to graduate") + ".zip");
-	});
-	
-	$("#save-video").on("click", function() {
-		var date = new Date();
-		var dateParts = date.toLocaleDateString().split("/");
-		var dateStamp = dateParts[2] + dateParts[1] + dateParts[0];
-		
-		saveAs(Whammy.fromImageArray(frames, 1000/60), dateStamp + "-video.webm");
-	});
+    myo.on("accelerometer", function (newData) {
+        if (isRecording) {
+            recordData(accelerometerFileData, newData);
+        }
+        updateGraph(accelerometerGraph, accelerometerGraphData, newData);
+    });
 
-	$(".reset").on("click", function() {
-		$("#completed").removeClass("btn-success");
-		$("#ready").addClass("btn-warning");
-		$("#timer").text("0.00");
-		
-		$("#user-name").val("");
-		$("#trial-number").val("");
-		$("#trial-type").val("");
-		
-		orientationFileData = ["timestamp,w,x,y,z"];
-		gyroscopeFileData = ["timestamp,x,y,z"];
-		accelerometerFileData = ["timestamp,x,y,z"];
-		emgFileData = ["timestamp,emg1,emg2,emg3,emg4,emg5,emg6,emg7,emg8"];
-		frames = new Array();
-		
-		isReady = true;
-	});
+    myo.on('emg', function (data) {
+        rawData = data;
+        if (isRecording) {
+            recordData(emgFileData, data);
+        }
+    });
+};
+
+$(document).ready(function () {
+    orientationGraph = $(".orientationGraph").plot(formatFlotData(orientationGraphData), {
+        colors: graphColors,
+        xaxis: {
+            show: false,
+            min: 0,
+            max: resolution1
+        },
+        yaxis: {
+            min: -orientationRange,
+            max: orientationRange
+        },
+        shadowSize: 0,
+        grid: {
+            borderColor: "#427F78",
+            borderWidth: 1
+        }
+    }).data("plot");
+
+    gyroscopeGraph = $(".gyroscopeGraph").plot(formatFlotData(gyroscopeGraphData), {
+        colors: graphColors,
+        xaxis: {
+            show: false,
+            min: 0,
+            max: resolution1
+        },
+        yaxis: {
+            min: -gyroscopeRange,
+            max: gyroscopeRange
+        },
+        shadowSize: 0,
+        grid: {
+            borderColor: "#427F78",
+            borderWidth: 1
+        }
+    }).data("plot");
+
+    accelerometerGraph = $(".accelerometerGraph").plot(formatFlotData(accelerometerGraphData), {
+        colors: graphColors,
+        xaxis: {
+            show: false,
+            min: 0,
+            max: resolution1
+        },
+        yaxis: {
+            min: -accelerometerRange,
+            max: accelerometerRange
+        },
+        shadowSize: 0,
+        grid: {
+            borderColor: "#427F78",
+            borderWidth: 1
+        }
+    }).data("plot");
+
+    $("#save").on("click", function () {
+        var zip = new JSZip();
+
+        var date = new Date();
+        var dateParts = date.toLocaleDateString().split("/");
+        var dateStamp = dateParts[2] + dateParts[1] + dateParts[0];
+
+        var trial = zip.folder(($("#trial-number").val() || "test") + "_" + ($("#trial-type").val() || "test"));
+        trial.file(dateStamp + "-orientation.csv", orientationFileData.join("\n"));
+        trial.file(dateStamp + "-gyroscope.csv", gyroscopeFileData.join("\n"));
+        trial.file(dateStamp + "-accelerometer.csv", accelerometerFileData.join("\n"));
+        trial.file(dateStamp + "-emg.csv", emgFileData.join("\n"));
+
+        var content = zip.generate({type: "blob"});
+
+        saveAs(content, ($("#user-name").val() || "we just want to graduate") + ".zip");
+    });
+
+    $("#save-video").on("click", function () {
+        var date = new Date();
+        var dateParts = date.toLocaleDateString().split("/");
+        var dateStamp = dateParts[2] + dateParts[1] + dateParts[0];
+
+        saveAs(Whammy.fromImageArray(frames, 1000 / 60), dateStamp + "-video.webm");
+    });
+
+    $(".reset").on("click", function () {
+        $("#completed").removeClass("btn-success");
+        $("#ready").addClass("btn-warning");
+        $("#timer").text("0.00");
+
+        $("#user-name").val("");
+        $("#trial-number").val("");
+        $("#trial-type").val("");
+
+        orientationFileData = ["timestamp,w,x,y,z"];
+        gyroscopeFileData = ["timestamp,x,y,z"];
+        accelerometerFileData = ["timestamp,x,y,z"];
+        emgFileData = ["timestamp,emg1,emg2,emg3,emg4,emg5,emg6,emg7,emg8"];
+        frames = [];
+
+        isReady = true;
+    });
 });
 
-var formatFlotData = function(graphData) {
-	return Object.keys(graphData).map(function(axis) {
-		return {
-			label: axis + " axis",
-			data: graphData[axis].map(function(val, index) {
-				return [index, val]
-			})
-		}
-	});
-}
+var formatFlotData = function (graphData) {
+    return Object.keys(graphData).map(function (axis) {
+        return {
+            label: axis + " axis",
+            data: graphData[axis].map(function (val, index) {
+                return [index, val]
+            })
+        }
+    });
+};
 
-var updateGraph = function(graph, graphData, newData) {
-	Object.keys(graphData).map(function(axis) {
-		graphData[axis] = graphData[axis].slice(1);
-		graphData[axis].push(newData[axis]);
-	});
-	
-	graph.setData(formatFlotData(graphData));
-	graph.draw();
-}
+var updateGraph = function (graph, graphData, newData) {
+    Object.keys(graphData).map(function (axis) {
+        graphData[axis] = graphData[axis].slice(1);
+        graphData[axis].push(newData[axis]);
+    });
 
-var formatFinalFlotData = function(fileData) {
-	var axis = fileData[0].split(",");
-	axis = axis.slice(1);
-	fileData = fileData.slice(1);
-	return axis.map(function(val, pos) {
-		return {
-			label: val + " axis",
-			data: fileData.map(function(data){
-				data = data.split(",");
-				return [data[0], data[pos + 1]]
-			})
-		}
-	});
-}
+    graph.setData(formatFlotData(graphData));
+    graph.draw();
+};
 
-/*
-
-
-
-
-*/
+var formatFinalFlotData = function (fileData) {
+    var axis = fileData[0].split(",");
+    axis = axis.slice(1);
+    fileData = fileData.slice(1);
+    return axis.map(function (val, pos) {
+        return {
+            label: val + " axis",
+            data: fileData.map(function (data) {
+                data = data.split(",");
+                return [data[0], data[pos + 1]]
+            })
+        }
+    });
+};

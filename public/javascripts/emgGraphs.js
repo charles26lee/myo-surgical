@@ -31,7 +31,7 @@ var emgGraphDataComplete;
 
 $(document).ready(function(){
 	emgGraphs = emgGraphData.map(function(podData, podIndex) {
-		return $('#pod' + podIndex).plot(formatEMGFlotData(podIndex, podData), {
+		return $('#pod' + podIndex + '-left').plot(formatEMGFlotData(podIndex, podData), {
 			colors: ['#60907e'],
 			xaxis: {
 				show: false,
