@@ -1,58 +1,53 @@
-//This tells Myo.js to create the web sockets needed to communnicate with Myo Connect
+//This tells Myo.js to create the web sockets needed to communicate with Myo Connect
 
-Myo.on('connected', function(){
-	console.log('connected');
-	this.streamEMG(true);
+var emgResolution = 50;
 
-	setInterval(function(){
-		updateEMGGraph(rawData);
-	}, 25)
-})
+var empPods = 8;
 
-var rawData = [0,0,0,0,0,0,0,0];
+var emgRange = 150;
+var emgGraphs = {};
 
-var range = 150;
-var resolution = 50;
-var emgGraphs;
-var finalEmgGraphs;
+var emgGraphData = initializeEmgGraph();
 
-var emgGraphData = [
-	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0),
-	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0),
-	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0),
-	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0),
-	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0),
-	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0),
-	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0),
-	Array.apply(null, Array(resolution)).map(Number.prototype.valueOf,0)
-]
-
-var emgGraphDataComplete;
+function initializeEmgGraph() {
+    var emgGraphData = {};
+    for (var i = 0; i < arms.length; ++i) {
+        var arm = arms[i];
+        emgGraphData[arm] = [];
+        for (var j = 0; j < empPods; ++j) {
+            emgGraphData[arm].push(Array.apply(null, new Array(emgResolution)).map(Number.prototype.valueOf,0));
+        }
+    }
+    return emgGraphData;
+}
 
 $(document).ready(function(){
-	emgGraphs = emgGraphData.map(function(podData, podIndex) {
-		return $('#pod' + podIndex + '-left').plot(formatEMGFlotData(podIndex, podData), {
-			colors: ['#60907e'],
-			xaxis: {
-				show: false,
-				min: 0,
-				max: resolution
-			},
-			yaxis: {
-				min: -range,
-				max: range,
-			},
-			shadowSize: 0,
-			grid: {
-				borderColor: "#427f78",
-				borderWidth: 1
-			}
-		}).data("plot");
-	});
+    for (var i = 0; i < arms.length; ++i) {
+        var arm = arms[i];
+        emgGraphs[arm] = emgGraphData[arm].map(function(podData, podIndex) {
+            return $('#pod' + podIndex + '-' + arm).plot(formatEMGFlotData(podIndex, podData), {
+                colors: ['#60907e'],
+                xaxis: {
+                    show: false,
+                    min: 0,
+                    max: emgResolution
+                },
+                yaxis: {
+                    min: -emgRange,
+                    max: emgRange
+                },
+                shadowSize: 0,
+                grid: {
+                    borderColor: "#427f78",
+                    borderWidth: 1
+                }
+            }).data("plot");
+        });
+    }
 });
 
 var formatEMGFlotData = function(index, data) {
-	if (index == 3) {
+	if (index === 3) {
 		return [{
 			label: "<img src='images/logo.png'>3",
 			data: data.map(function(val, t) {
@@ -67,9 +62,9 @@ var formatEMGFlotData = function(index, data) {
 			})
 		}];
 	}
-}
+};
 
-var updateEMGGraph = function(emgData) {
+var updateEMGGraph = function(emgGraphs, emgGraphData, emgData) {
 	emgGraphData.map(function(data, index) {
 		emgGraphData[index] = emgGraphData[index].slice(1);
 		emgGraphData[index].push(emgData[index]);
@@ -77,7 +72,7 @@ var updateEMGGraph = function(emgData) {
 		emgGraphs[index].setData(formatEMGFlotData(index, emgGraphData[index]));
 		emgGraphs[index].draw();
 	})
-}
+};
 
 var formatFinalEMGFlotData = function(emgFileData, pod) {
 	var axis = emgFileData[0].split(",");
@@ -90,11 +85,4 @@ var formatFinalEMGFlotData = function(emgFileData, pod) {
 			return [data[0], data[pod + 1]]
 		})
 	}];
-}
-
-/*
-
-
-
-
-*/
+};
