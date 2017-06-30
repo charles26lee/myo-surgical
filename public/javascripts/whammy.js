@@ -127,7 +127,7 @@ window.Whammy = (function(){
 					//cluster insertion point
 				]
 			}
-		 ];
+		];
 
 						
 		//Generate clusters (max duration)
