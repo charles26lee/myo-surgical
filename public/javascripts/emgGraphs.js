@@ -35,6 +35,48 @@ function initializeEmgGraph() {
     return emgGraphData;
 }
 
+
+function formatEMGFlotData(index, data) {
+    if (index === 3) {
+        return [{
+            label: "<img src='images/logo.png'>3",
+            data: data.map(function(val, t) {
+                return [t, val];
+            })
+        }];
+    } else {
+        return [{
+            label: index.toString(),
+            data: data.map(function(val, t) {
+                return [t, val];
+            })
+        }];
+    }
+}
+
+function updateEMGGraph(emgGraphs, emgGraphData, emgData) {
+    emgGraphData.map(function(data, index) {
+        emgGraphData[index] = emgGraphData[index].slice(1);
+        emgGraphData[index].push(emgData[index]);
+
+        emgGraphs[index].setData(formatEMGFlotData(index, emgGraphData[index]));
+        emgGraphs[index].draw();
+    })
+}
+
+function formatFinalEMGFlotData(emgFileData, pod) {
+    var axis = emgFileData[0].split(",");
+    axis = axis.slice(1);
+    emgFileData = emgFileData.slice(1);
+    return [{
+        label: pod.toString(),
+        data: emgFileData.map(function(data) {
+            data = data.split(",");
+            return [data[0], data[pod + 1]]
+        })
+    }];
+}
+
 $(document).ready(function(){
     for (var i = 0; i < arms.length; ++i) {
         var arm = arms[i];
@@ -59,44 +101,3 @@ $(document).ready(function(){
         });
     }
 });
-
-var formatEMGFlotData = function(index, data) {
-	if (index === 3) {
-		return [{
-			label: "<img src='images/logo.png'>3",
-			data: data.map(function(val, t) {
-				return [t, val];
-			})
-		}];
-	} else {
-		return [{
-			label: index.toString(),
-			data: data.map(function(val, t) {
-				return [t, val];
-			})
-		}];
-	}
-};
-
-var updateEMGGraph = function(emgGraphs, emgGraphData, emgData) {
-	emgGraphData.map(function(data, index) {
-		emgGraphData[index] = emgGraphData[index].slice(1);
-		emgGraphData[index].push(emgData[index]);
-
-		emgGraphs[index].setData(formatEMGFlotData(index, emgGraphData[index]));
-		emgGraphs[index].draw();
-	})
-};
-
-var formatFinalEMGFlotData = function(emgFileData, pod) {
-	var axis = emgFileData[0].split(",");
-	axis = axis.slice(1);
-	emgFileData = emgFileData.slice(1);
-	return [{
-		label: pod.toString(),
-		data: emgFileData.map(function(data) {
-			data = data.split(",");
-			return [data[0], data[pod + 1]]
-		})
-	}];
-};

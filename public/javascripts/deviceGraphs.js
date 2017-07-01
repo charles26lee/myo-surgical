@@ -56,6 +56,204 @@ var currentTime = 0;
 var isReady = true;
 var isRecording = false;
 
+function addEvents(myo) {
+    myo.streamEMG(true);
+
+    var arm = myo.arm;
+
+    myo.on("orientation", function (newData, timestamp) {
+        if (isReady && !isRecording) {
+            startTime = timestamp;
+        } else if (isRecording) {
+            $("#timer").text(getElapsedTime().toFixed(2));
+            recordVideo();
+            recordData(orientationFileData[arm], newData);
+        }
+
+        if (arm === "right" && (Math.asin(Math.max(-1, Math.min(1, 2 * (newData.y * newData.w - newData.x * newData.z)))) + Math.PI / 2) * 18 / Math.PI > 15) {
+            if (getElapsedTime() > 5 && isRecording) {
+                $("#recording").removeClass("btn-danger");
+                $("#completed").addClass("btn-success");
+                $("#save-modal").modal("show");
+                cancelAnimationFrame(rafId);
+                plotFinalGraphs();
+                isRecording = false;
+                isReady = false;
+            } else if (!isRecording && isReady) {
+                $("#ready").removeClass("btn-warning");
+                $("#recording").addClass("btn-danger");
+                $("#gesture-protocol-close").trigger("click");
+                isRecording = true;
+            }
+        }
+
+        currentTime = timestamp;
+        updateGraph(orientationGraphs[arm], orientationGraphData[arm], newData);
+    });
+
+    myo.on("gyroscope", function (newData) {
+        if (isRecording) {
+            recordData(gyroscopeFileData[arm], newData);
+        }
+        updateGraph(gyroscopeGraphs[arm], gyroscopeGraphData[arm], newData);
+    });
+
+    myo.on("accelerometer", function (newData) {
+        if (isRecording) {
+            recordData(accelerometerFileData[arm], newData);
+        }
+        updateGraph(accelerometerGraphs[arm], accelerometerGraphData[arm], newData);
+    });
+
+    myo.on('emg', function (newData) {
+        if (isRecording) {
+            recordData(emgFileData[arm], newData);
+        }
+        emgRawData[arm] = newData;
+    });
+
+    setInterval(function(){
+        updateEMGGraph(emgGraphs[arm], emgGraphData[arm], emgRawData[arm]);
+    }, 25);
+}
+
+var graphs = ["orientation", "gyroscope", "accelerometer", "emg"];
+
+function removeEvents(myo) {
+    myo.streamEMG(false);
+
+    var arm = myo.arm;
+
+    for (var i = 0; i < graphs.length; ++i) {
+        myo.off(graphs[i]);
+    }
+}
+
+var getElapsedTime = function () {
+    return (currentTime - startTime) / 1000000;
+};
+
+function recordData(fileData, newData) {
+    var formattedData = getElapsedTime() + "," + Object.keys(newData).map(function (axis) {
+            return newData[axis];
+        }).join();
+    fileData.push(formattedData);
+}
+
+function formatFlotData(graphData) {
+    return Object.keys(graphData).map(function (axis) {
+        return {
+            label: axis + " axis",
+            data: graphData[axis].map(function (val, index) {
+                return [index, val]
+            })
+        }
+    });
+}
+
+function updateGraph(graph, graphData, newData) {
+    Object.keys(graphData).map(function (axis) {
+        graphData[axis] = graphData[axis].slice(1);
+        graphData[axis].push(newData[axis]);
+    });
+
+    graph.setData(formatFlotData(graphData));
+    graph.draw();
+}
+
+function formatFinalFlotData(fileData) {
+    var axis = fileData[0].split(",");
+    axis = axis.slice(1);
+    fileData = fileData.slice(1);
+    return axis.map(function (val, pos) {
+        return {
+            label: val + " axis",
+            data: fileData.map(function (data) {
+                data = data.split(",");
+                return [data[0], data[pos + 1]]
+            })
+        }
+    });
+}
+
+function plotFinalGraphs() {
+    var arm = "left";
+
+    orientationFileData[arm].splice(0, 0, orientationDataNames.join());
+    $(".finalOrientationGraph").plot(formatFinalFlotData(orientationFileData[arm]), {
+        colors: graphColors,
+        xaxis: {
+            min: 0,
+            max: parseFloat(orientationFileData[arm][orientationFileData[arm].length - 1])
+        },
+        yaxis: {
+            min: -orientationRange,
+            max: orientationRange
+        },
+        shadowSize: 0,
+        grid: {
+            borderColor: "#427F78",
+            borderWidth: 1
+        }
+    }).data("plot");
+
+    gyroscopeFileData[arm].splice(0, 0, gyroscopeDataNames.join());
+    $(".finalGyroscopeGraph").plot(formatFinalFlotData(gyroscopeFileData[arm]), {
+        colors: graphColors,
+        xaxis: {
+            min: 0,
+            max: parseFloat(gyroscopeFileData[arm][gyroscopeFileData[arm].length - 1])
+        },
+        yaxis: {
+            min: -gyroscopeRange,
+            max: gyroscopeRange
+        },
+        shadowSize: 0,
+        grid: {
+            borderColor: "#427F78",
+            borderWidth: 1
+        }
+    }).data("plot");
+
+    accelerometerFileData[arm].splice(0, 0, accelerometerDataNames.join());
+    $(".finalAccelerometerGraph").plot(formatFinalFlotData(accelerometerFileData[arm]), {
+        colors: graphColors,
+        xaxis: {
+            min: 0,
+            max: parseFloat(accelerometerFileData[arm][accelerometerFileData[arm].length - 1])
+        },
+        yaxis: {
+            min: -accelerometerRange,
+            max: accelerometerRange
+        },
+        shadowSize: 0,
+        grid: {
+            borderColor: "#427F78",
+            borderWidth: 1
+        }
+    }).data("plot");
+
+    emgFileData[arm].splice(0, 0, emgDataNames.join());
+    emgGraphData[arm].map(function (val, index) {
+        return $("#finalPod" + index).plot(formatFinalEMGFlotData(emgFileData[arm], index), {
+            colors: ['#60907e'],
+            xaxis: {
+                min: 0,
+                max: parseFloat(emgFileData[arm][emgFileData[arm].length - 1])
+            },
+            yaxis: {
+                min: -emgRange,
+                max: emgRange
+            },
+            shadowSize: 0,
+            grid: {
+                borderColor: "#427f78",
+                borderWidth: 1
+            }
+        }).data("plot");
+    });
+}
+
 $(document).ready(function () {
     for (var i = 0; i < arms.length; ++i) {
         var arm = arms[i];
@@ -158,212 +356,14 @@ $(document).ready(function () {
 
         isReady = true;
     });
+
+    Myo.on("arm_synced", function () {
+        console.log(this.arm + " arm synced.");
+        addEvents(this);
+    });
+
+    Myo.on("arm_unsynced", function () {
+        console.log(this.arm + " arm unsynced.");
+        removeEvents(this);
+    });
 });
-
-Myo.on("arm_synced", function () {
-    console.log(this.arm + " arm synced.");
-    addEvents(this);
-});
-
-function addEvents(myo) {
-    myo.streamEMG(true);
-
-    var arm = myo.arm;
-
-    myo.on("orientation", function (newData, timestamp) {
-        if (isReady && !isRecording) {
-            startTime = timestamp;
-        } else if (isRecording) {
-            $("#timer").text(getElapsedTime().toFixed(2));
-            recordVideo();
-            recordData(orientationFileData[arm], newData);
-        }
-
-        if (arm === "right" && (Math.asin(Math.max(-1, Math.min(1, 2 * (newData.y * newData.w - newData.x * newData.z)))) + Math.PI / 2) * 18 / Math.PI > 15) {
-            if (getElapsedTime() > 5 && isRecording) {
-                $("#recording").removeClass("btn-danger");
-                $("#completed").addClass("btn-success");
-                $("#save-modal").modal("show");
-                cancelAnimationFrame(rafId);
-                //plotFinalGraphs();
-                isRecording = false;
-                isReady = false;
-            } else if (!isRecording && isReady) {
-                $("#ready").removeClass("btn-warning");
-                $("#recording").addClass("btn-danger");
-                $("#gesture-protocol-close").trigger("click");
-                isRecording = true;
-            }
-        }
-
-        currentTime = timestamp;
-        updateGraph(orientationGraphs[arm], orientationGraphData[arm], newData);
-    });
-
-    myo.on("gyroscope", function (newData) {
-        if (isRecording) {
-            recordData(gyroscopeFileData[arm], newData);
-        }
-        updateGraph(gyroscopeGraphs[arm], gyroscopeGraphData[arm], newData);
-    });
-
-    myo.on("accelerometer", function (newData) {
-        if (isRecording) {
-            recordData(accelerometerFileData, newData);
-        }
-        updateGraph(accelerometerGraphs[arm], accelerometerGraphData[arm], newData);
-    });
-
-    myo.on('emg', function (newData) {
-        if (isRecording) {
-            recordData(emgFileData[arm], newData);
-        }
-        emgRawData[arm] = newData;
-    });
-
-    setInterval(function(){
-        updateEMGGraph(emgGraphs[arm], emgGraphData[arm], emgRawData[arm]);
-    }, 25);
-}
-
-var graphs = ["orientation", "gyroscope", "accelerometer", "emg"];
-
-function removeEvents(myo) {
-    myo.streamEMG(false);
-
-    var arm = myo.arm;
-
-    for (var i = 0; i < graphs.length; ++i) {
-        myo.off(graphs[i]);
-    }
-}
-
-Myo.on("arm_unsynced", function () {
-    console.log(this.arm + " arm unsynced.");
-    removeEvents(this);
-});
-
-var getElapsedTime = function () {
-    return (currentTime - startTime) / 1000000;
-};
-
-var recordData = function (fileData, newData) {
-    var formattedData = getElapsedTime() + "," + Object.keys(newData).map(function (axis) {
-            return newData[axis];
-        }).join();
-    //fileData.push(formattedData);
-};
-
-var formatFlotData = function (graphData) {
-    return Object.keys(graphData).map(function (axis) {
-        return {
-            label: axis + " axis",
-            data: graphData[axis].map(function (val, index) {
-                return [index, val]
-            })
-        }
-    });
-};
-
-var updateGraph = function (graph, graphData, newData) {
-    Object.keys(graphData).map(function (axis) {
-        graphData[axis] = graphData[axis].slice(1);
-        graphData[axis].push(newData[axis]);
-    });
-
-    graph.setData(formatFlotData(graphData));
-    graph.draw();
-};
-
-var formatFinalFlotData = function (fileData) {
-    var axis = fileData[0].split(",");
-    axis = axis.slice(1);
-    fileData = fileData.slice(1);
-    return axis.map(function (val, pos) {
-        return {
-            label: val + " axis",
-            data: fileData.map(function (data) {
-                data = data.split(",");
-                return [data[0], data[pos + 1]]
-            })
-        }
-    });
-};
-
-var plotFinalGraphs = function () {
-    var arm = "left";
-
-    orientationFileData[arm].splice(0, 0, orientationDataNames.join());
-    $(".finalOrientationGraph").plot(formatFinalFlotData(orientationFileData[arm]), {
-        colors: graphColors,
-        xaxis: {
-            min: 0,
-            max: parseFloat(orientationFileData[arm][orientationFileData[arm].length - 1])
-        },
-        yaxis: {
-            min: -orientationRange,
-            max: orientationRange
-        },
-        shadowSize: 0,
-        grid: {
-            borderColor: "#427F78",
-            borderWidth: 1
-        }
-    }).data("plot");
-
-    gyroscopeFileData[arm].splice(0, 0, gyroscopeDataNames.join());
-    $(".finalGyroscopeGraph").plot(formatFinalFlotData(gyroscopeFileData[arm]), {
-        colors: graphColors,
-        xaxis: {
-            min: 0,
-            max: parseFloat(gyroscopeFileData[arm][gyroscopeFileData[arm].length - 1])
-        },
-        yaxis: {
-            min: -gyroscopeRange,
-            max: gyroscopeRange
-        },
-        shadowSize: 0,
-        grid: {
-            borderColor: "#427F78",
-            borderWidth: 1
-        }
-    }).data("plot");
-
-    accelerometerFileData[arm].splice(0, 0, accelerometerDataNames.join());
-    $(".finalAccelerometerGraph").plot(formatFinalFlotData(accelerometerFileData[arm]), {
-        colors: graphColors,
-        xaxis: {
-            min: 0,
-            max: parseFloat(accelerometerFileData[arm][accelerometerFileData[arm].length - 1])
-        },
-        yaxis: {
-            min: -accelerometerRange,
-            max: accelerometerRange
-        },
-        shadowSize: 0,
-        grid: {
-            borderColor: "#427F78",
-            borderWidth: 1
-        }
-    }).data("plot");
-
-    emgFileData[arm].splice(0, 0, emgDataNames.join());
-    emgGraphData.map(function (val, index) {
-        return $("#finalPod" + index).plot(formatFinalEMGFlotData(emgFileData[arm], index), {
-            colors: ['#60907e'],
-            xaxis: {
-                min: 0,
-                max: parseFloat(emgFileData[arm][emgFileData[arm].length - 1])
-            },
-            yaxis: {
-                min: -emgRange,
-                max: emgRange
-            },
-            shadowSize: 0,
-            grid: {
-                borderColor: "#427f78",
-                borderWidth: 1
-            }
-        }).data("plot");
-    });
-};
