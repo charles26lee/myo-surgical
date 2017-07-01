@@ -28,11 +28,11 @@
 	</head>
 	<body>
 		<div class="panel panel-info">
-		<div class="panel-heading">Myo Lap Trainer</div>
+		<div class="panel-heading">Lap Analysis</div>
 		<div class="panel-body">
 			<div class="gesture-protocol alert alert-info">
 				<a href="#" id="gesture-protocol-close" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<p>Welcome to the Myo Lap Trainer!</p>
+				<p>Welcome to the Lap Analysis App!</p>
 				<p>To begin a trial, initiate with the start gesture: lift your forearm vertically upwards. The timer will start recording once the start gesture is recognized.</p>
 				<p>To end a trial, do the same gesture.</p>
 			</div>
@@ -48,59 +48,73 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Accelerometer</div>
-                        <div class="accelerometerGraph left panel-body"></div>
-                        <div class="panel-heading">Gyroscope</div>
-                        <div class="gyroscopeGraph left panel-body"></div>
-                        <div class="panel-heading">Orientation</div>
-                        <div class="orientationGraph left panel-body"></div>
+                        <div class="panel-heading">Left Myo</div>
+                        <div class="row panel-body">
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Accelerometer</div>
+                                    <div class="accelerometerGraph left panel-body"></div>
+                                    <div class="panel-heading">Gyroscope</div>
+                                    <div class="gyroscopeGraph left panel-body"></div>
+                                    <div class="panel-heading">Orientation</div>
+                                    <div class="orientationGraph left panel-body"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">EMG</div>
+                                    <div id="pod0-left" class="emgGraph left panel-body"></div>
+                                    <div id="pod1-left" class="emgGraph left panel-body"></div>
+                                    <div id="pod2-left" class="emgGraph left panel-body"></div>
+                                    <div id="pod3-left" class="emgGraph left panel-body"></div>
+                                    <div id="pod4-left" class="emgGraph left panel-body"></div>
+                                    <div id="pod5-left" class="emgGraph left panel-body"></div>
+                                    <div id="pod6-left" class="emgGraph left panel-body"></div>
+                                    <div id="pod7-left" class="emgGraph left panel-body"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     <div class="panel panel-default">
-                        <div class="panel-heading">EMG</div>
-                        <div id="pod0-left" class="emgGraph left panel-body"></div>
-                        <div id="pod1-left" class="emgGraph left panel-body"></div>
-                        <div id="pod2-left" class="emgGraph left panel-body"></div>
-                        <div id="pod3-left" class="emgGraph left panel-body"></div>
-                        <div id="pod4-left" class="emgGraph left panel-body"></div>
-                        <div id="pod5-left" class="emgGraph left panel-body"></div>
-                        <div id="pod6-left" class="emgGraph left panel-body"></div>
-                        <div id="pod7-left" class="emgGraph left panel-body"></div>
+                        <div class="panel-heading">Right Myo</div>
+                        <div class="row panel-body">
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Accelerometer</div>
+                                    <div class="accelerometerGraph right panel-body"></div>
+                                    <div class="panel-heading">Gyroscope</div>
+                                    <div class="gyroscopeGraph right panel-body"></div>
+                                    <div class="panel-heading">Orientation</div>
+                                    <div class="orientationGraph right panel-body"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">EMG</div>
+                                    <div id="pod0-right" class="emgGraph right panel-body"></div>
+                                    <div id="pod1-right" class="emgGraph right panel-body"></div>
+                                    <div id="pod2-right" class="emgGraph right panel-body"></div>
+                                    <div id="pod3-right" class="emgGraph right panel-body"></div>
+                                    <div id="pod4-right" class="emgGraph right panel-body"></div>
+                                    <div id="pod5-right" class="emgGraph right panel-body"></div>
+                                    <div id="pod6-right" class="emgGraph right panel-body"></div>
+                                    <div id="pod7-right" class="emgGraph right panel-body"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Accelerometer</div>
-                        <div class="accelerometerGraph right panel-body"></div>
-                        <div class="panel-heading">Gyroscope</div>
-                        <div class="gyroscopeGraph right panel-body"></div>
-                        <div class="panel-heading">Orientation</div>
-                        <div class="orientationGraph right panel-body"></div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">EMG</div>
-                        <div id="pod0-right" class="emgGraph right panel-body"></div>
-                        <div id="pod1-right" class="emgGraph right panel-body"></div>
-                        <div id="pod2-right" class="emgGraph right panel-body"></div>
-                        <div id="pod3-right" class="emgGraph right panel-body"></div>
-                        <div id="pod4-right" class="emgGraph right panel-body"></div>
-                        <div id="pod5-right" class="emgGraph right panel-body"></div>
-                        <div id="pod6-right" class="emgGraph right panel-body"></div>
-                        <div id="pod7-right" class="emgGraph right panel-body"></div>
-                    </div>
-                </div>
-			</div>
+            </div>
 		</div>
 		<div class="copyright panel-footer">
-            <p>Laparoscopy Training with Myo © 2016</p>
-            <p>by Bolingot, H. J., Javier, A. R., and Lee, C. E.</p>
-            <p>Ateneo Innovation Center and ECCE Department</p>
-            <p>Ateneo de Manila University</p>
+            <p>Myosurgical Research © 2017</p>
+            <p>by Bolingot, H. J., Prado, J. R., and Lee, C. E.</p>
+            <p>Ateneo Innovation Center, ECCE Department, Ateneo de Manila University</p>
+            <p>CASSTI, The Medical City</p>
 		</div>
 		<div>
 		<!-- Modal -->
