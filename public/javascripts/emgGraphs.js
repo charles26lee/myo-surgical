@@ -2,7 +2,21 @@
 
 var emgResolution = 50;
 
-var empPods = 8;
+var emgPods = 8;
+
+function initializeRawData() {
+    var rawData = {};
+    for (var i = 0; i < arms.length; ++i) {
+        var arm = arms[i];
+        rawData[arm] = [];
+        for (var j = 0; j < emgPods; ++j) {
+            rawData[arm].push(0);
+        }
+    }
+    return rawData;
+}
+
+var emgRawData = initializeRawData();
 
 var emgRange = 150;
 var emgGraphs = {};
@@ -14,7 +28,7 @@ function initializeEmgGraph() {
     for (var i = 0; i < arms.length; ++i) {
         var arm = arms[i];
         emgGraphData[arm] = [];
-        for (var j = 0; j < empPods; ++j) {
+        for (var j = 0; j < emgPods; ++j) {
             emgGraphData[arm].push(Array.apply(null, new Array(emgResolution)).map(Number.prototype.valueOf,0));
         }
     }

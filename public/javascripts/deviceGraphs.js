@@ -162,11 +162,12 @@ $(document).ready(function () {
 
 Myo.on("arm_synced", function () {
     console.log(this.arm + " arm synced.");
-    this.streamEMG(true);
     addEvents(this);
 });
 
 function addEvents(myo) {
+    myo.streamEMG(true);
+
     var arm = myo.arm;
 
     myo.on("orientation", function (newData, timestamp) {
@@ -213,23 +214,34 @@ function addEvents(myo) {
         updateGraph(accelerometerGraphs[arm], accelerometerGraphData[arm], newData);
     });
 
-    var emgData = [];
-
-    for (var i = 0; i < empPods; ++i) {
-        emgData.push(0);
-    }
-
     myo.on('emg', function (newData) {
         if (isRecording) {
             recordData(emgFileData[arm], newData);
         }
-        emgData = newData;
+        emgRawData[arm] = newData;
     });
 
     setInterval(function(){
-        updateEMGGraph(emgGraphs[arm], emgGraphData[arm], emgData);
+        updateEMGGraph(emgGraphs[arm], emgGraphData[arm], emgRawData[arm]);
     }, 25);
 }
+
+var graphs = ["orientation", "gyroscope", "accelerometer", "emg"];
+
+function removeEvents(myo) {
+    myo.streamEMG(false);
+
+    var arm = myo.arm;
+
+    for (var i = 0; i < graphs.length; ++i) {
+        myo.off(graphs[i]);
+    }
+}
+
+Myo.on("arm_unsynced", function () {
+    console.log(this.arm + " arm unsynced.");
+    removeEvents(this);
+});
 
 var getElapsedTime = function () {
     return (currentTime - startTime) / 1000000;
