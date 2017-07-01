@@ -22,15 +22,17 @@ var gyroscopeDataNames = ["timestamp","x","y","z"];
 var accelerometerDataNames = ["timestamp","x","y","z"];
 var emgDataNames = ["timestamp","emg1","emg2","emg3","emg4","emg5","emg6","emg7","emg8"];
 
-var orientationFileData = initializeFileData();
-var gyroscopeFileData = initializeFileData();
-var accelerometerFileData = initializeFileData();
-var emgFileData = initializeFileData();
+var orientationFileData = initializeFileData(orientationDataNames);
+var gyroscopeFileData = initializeFileData(gyroscopeDataNames);
+var accelerometerFileData = initializeFileData(accelerometerDataNames);
+var emgFileData = initializeFileData(emgDataNames);
 
-function initializeFileData() {
+function initializeFileData(dataNames) {
     var fileData = {};
     for (var i = 0 ; i < arms.length; ++i) {
-        fileData[arms[i]] = [];
+        var arm = arms[i];
+        fileData[arm] = [];
+        fileData[arm].push(dataNames.join());
     }
     return fileData;
 }
@@ -76,7 +78,7 @@ function addEvents(myo) {
                 $("#completed").addClass("btn-success");
                 $("#save-modal").modal("show");
                 cancelAnimationFrame(rafId);
-                plotFinalGraphs();
+                // plotFinalGraphs();
                 isRecording = false;
                 isReady = false;
             } else if (!isRecording && isReady) {
@@ -179,7 +181,6 @@ function formatFinalFlotData(fileData) {
 function plotFinalGraphs() {
     var arm = "left";
 
-    orientationFileData[arm].splice(0, 0, orientationDataNames.join());
     $(".finalOrientationGraph").plot(formatFinalFlotData(orientationFileData[arm]), {
         colors: graphColors,
         xaxis: {
@@ -197,7 +198,6 @@ function plotFinalGraphs() {
         }
     }).data("plot");
 
-    gyroscopeFileData[arm].splice(0, 0, gyroscopeDataNames.join());
     $(".finalGyroscopeGraph").plot(formatFinalFlotData(gyroscopeFileData[arm]), {
         colors: graphColors,
         xaxis: {
@@ -215,7 +215,6 @@ function plotFinalGraphs() {
         }
     }).data("plot");
 
-    accelerometerFileData[arm].splice(0, 0, accelerometerDataNames.join());
     $(".finalAccelerometerGraph").plot(formatFinalFlotData(accelerometerFileData[arm]), {
         colors: graphColors,
         xaxis: {
@@ -233,7 +232,6 @@ function plotFinalGraphs() {
         }
     }).data("plot");
 
-    emgFileData[arm].splice(0, 0, emgDataNames.join());
     emgGraphData[arm].map(function (val, index) {
         return $("#finalPod" + index).plot(formatFinalEMGFlotData(emgFileData[arm], index), {
             colors: ['#60907e'],
@@ -321,10 +319,14 @@ $(document).ready(function () {
         var dateStamp = dateParts[2] + dateParts[1] + dateParts[0];
 
         var trial = zip.folder(($("#trial-number").val() || "test") + "_" + ($("#trial-type").val() || "test"));
-        trial.file(dateStamp + "-orientation.csv", orientationFileData.join("\n"));
-        trial.file(dateStamp + "-gyroscope.csv", gyroscopeFileData.join("\n"));
-        trial.file(dateStamp + "-accelerometer.csv", accelerometerFileData.join("\n"));
-        trial.file(dateStamp + "-emg.csv", emgFileData.join("\n"));
+
+        for (var i = 0; i < arms.length; ++i) {
+            var arm = arms[i];
+            trial.file(arm + "-" + dateStamp + "-orientation.csv", orientationFileData[arm].join("\n"));
+            trial.file(arm + "-" + dateStamp + "-gyroscope.csv", gyroscopeFileData[arm].join("\n"));
+            trial.file(arm + "-" + dateStamp + "-accelerometer.csv", accelerometerFileData[arm].join("\n"));
+            trial.file(arm + "-" + dateStamp + "-emg.csv", emgFileData[arm].join("\n"));
+        }
 
         var content = zip.generate({type: "blob"});
 
