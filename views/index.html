@@ -120,82 +120,82 @@
 		<!-- Modal -->
 		<div id="save-modal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
-			<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close reset" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Recording Completed</h4>
-			</div>
-			<div class="modal-body container-fluid">
-				<form role="form" class="text-left">
-				<div class="row">
-					<div class="form-group col-sm-12">
-						<label for="user-name">Participant name:</label>
-						<input type="text" class="form-control" id="user-name">
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-sm-6">
-						<label for="trial-number">Trial No:</label>
-						<input type="text" class="form-control" id="trial-number"/>
-					</div>
-					<div class="form-group col-sm-6">
-						<label for="trial-type">Type:</label>
-						<select class="form-control" id="trial-type">
-							<option selected disabled></option>
-							<option value="0bt">Bolt Tightening</option>
-							<option value="1pt">Peg Transfer</option>
-							<option value="2pc">Pipe Cleaning</option>
-						</select>
-					</div>
-				</div>
-                <!--<div class="row">
-					<div class="form-group col-sm-12">
-						<ul class="nav nav-tabs">
-							<li role="presentation" class="active"><a href="#accelerometer" data-toggle="tab">Accelerometer</a></li>
-							<li role="presentation"><a href="#gyroscope" data-toggle="tab">Gyroscope</a></li>
-							<li role="presentation"><a href="#orientation" data-toggle="tab">Orientation</a></li>
-							<li role="presentation"><a href="#emg" data-toggle="tab">EMG</a></li>
-						</ul>
-						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane active" id="accelerometer">
-								<div class="finalAccelerometerGraph"></div>
-							</div>
-							<div role="tabpanel" class="tab-pane" id="gyroscope">
-								<div class="finalGyroscopeGraph"></div>
-							</div>
-							<div role="tabpanel" class="tab-pane" id="orientation">
-								<div class="finalOrientationGraph"></div>
-							</div>
-							<div role="tabpanel" class="tab-pane container-fluid" id="emg">
-								<div class="row">
-									<div class="col-sm-6"><div id="finalPod0" class="finalEmgGraph"></div></div>
-									<div class="col-sm-6"><div id="finalPod1" class="finalEmgGraph"></div></div>
-								</div>
-								<div class="row">
-									<div class="col-sm-6"><div id="finalPod2" class="finalEmgGraph"></div></div>
-									<div class="col-sm-6"><div id="finalPod3" class="finalEmgGraph"></div></div>
-								</div>
-								<div class="row">
-									<div class="col-sm-6"><div id="finalPod4" class="finalEmgGraph"></div></div>
-									<div class="col-sm-6"><div id="finalPod5" class="finalEmgGraph"></div></div>
-								</div>
-								<div class="row">
-									<div class="col-sm-6"><div id="finalPod6" class="finalEmgGraph"></div></div>
-									<div class="col-sm-6"><div id="finalPod7" class="finalEmgGraph"></div></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				</form>
-			</div>-->
-			<div class="modal-footer">
-				<input type="button" value="Reset" data-dismiss="modal" class="btn btn-danger reset"/>
-				<input type="button" value="Video" class="btn btn-warning" id="save-video"/>
-				<input type="button" value="Save" class="btn btn-primary" id="save"/>
-			</div>
-			</div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close reset" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Recording Completed</h4>
+                    </div>
+                    <div class="modal-body container-fluid">
+                        <form role="form" class="text-left">
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label for="exercise-title">Exercise Title:</label>
+                                    <input type="text" class="form-control" id="exercise-title">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label for="user-name">Participant name:</label>
+                                    <input type="text" class="form-control" id="user-name">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label for="trial-number">Trial No:</label>
+                                    <input type="text" class="form-control" id="trial-number"/>
+                                </div>
+                            </div>
+                            <!--<div class="row">
+                                <div class="form-group col-sm-12">
+                                    <ul class="nav nav-tabs">
+                                        <li role="presentation" class="active"><a href="#accelerometer" data-toggle="tab">Accelerometer</a></li>
+                                        <li role="presentation"><a href="#gyroscope" data-toggle="tab">Gyroscope</a></li>
+                                        <li role="presentation"><a href="#orientation" data-toggle="tab">Orientation</a></li>
+                                        <li role="presentation"><a href="#emg" data-toggle="tab">EMG</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="accelerometer">
+                                            <div class="finalAccelerometerGraph"></div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="gyroscope">
+                                            <div class="finalGyroscopeGraph"></div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="orientation">
+                                            <div class="finalOrientationGraph"></div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane container-fluid" id="emg">
+                                            <div class="row">
+                                                <div class="col-sm-6"><div id="finalPod0" class="finalEmgGraph"></div></div>
+                                                <div class="col-sm-6"><div id="finalPod1" class="finalEmgGraph"></div></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6"><div id="finalPod2" class="finalEmgGraph"></div></div>
+                                                <div class="col-sm-6"><div id="finalPod3" class="finalEmgGraph"></div></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6"><div id="finalPod4" class="finalEmgGraph"></div></div>
+                                                <div class="col-sm-6"><div id="finalPod5" class="finalEmgGraph"></div></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6"><div id="finalPod6" class="finalEmgGraph"></div></div>
+                                                <div class="col-sm-6"><div id="finalPod7" class="finalEmgGraph"></div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" value="Reset" data-dismiss="modal" class="btn btn-danger reset"/>
+                        <input type="button" value="Video" class="btn btn-warning" id="save-video"/>
+                        <input type="button" value="Save" class="btn btn-primary" id="save"/>
+                    </div>
+                </div>
 			</div>
 		</div>
+        </div>
+        </div>
 	</body>
 </html>

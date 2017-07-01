@@ -318,7 +318,7 @@ $(document).ready(function () {
         var dateParts = date.toLocaleDateString().split("/");
         var dateStamp = dateParts[2] + dateParts[1] + dateParts[0];
 
-        var trial = zip.folder(($("#trial-number").val() || "test") + "_" + ($("#trial-type").val() || "test"));
+        var trial = zip.folder($("#trial-number").val() || "test");
 
         for (var i = 0; i < arms.length; ++i) {
             var arm = arms[i];
