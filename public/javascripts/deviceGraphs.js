@@ -22,10 +22,12 @@ var gyroscopeDataNames = ["timestamp","x","y","z"];
 var accelerometerDataNames = ["timestamp","x","y","z"];
 var emgDataNames = ["timestamp","emg1","emg2","emg3","emg4","emg5","emg6","emg7","emg8"];
 
-var orientationFileData = initializeFileData(orientationDataNames);
-var gyroscopeFileData = initializeFileData(gyroscopeDataNames);
-var accelerometerFileData = initializeFileData(accelerometerDataNames);
-var emgFileData = initializeFileData(emgDataNames);
+var orientationFileData;
+var gyroscopeFileData;
+var accelerometerFileData;
+var emgFileData;
+
+resetFileData();
 
 function initializeFileData(dataNames) {
     var fileData = {};
@@ -252,6 +254,13 @@ function plotFinalGraphs() {
     });
 }
 
+function resetFileData() {
+    orientationFileData = initializeFileData(orientationDataNames);
+    gyroscopeFileData = initializeFileData(gyroscopeDataNames);
+    accelerometerFileData = initializeFileData(accelerometerDataNames);
+    emgFileData = initializeFileData(emgDataNames);
+}
+
 $(document).ready(function () {
     for (var i = 0; i < arms.length; ++i) {
         var arm = arms[i];
@@ -350,10 +359,7 @@ $(document).ready(function () {
         $("#trial-number").val("");
         $("#trial-type").val("");
 
-        orientationFileData = initializeFileData();
-        gyroscopeFileData = initializeFileData();
-        accelerometerFileData = initializeFileData();
-        emgFileData = initializeFileData();
+        resetFileData();
         frames = [];
 
         isReady = true;
